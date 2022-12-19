@@ -33,6 +33,28 @@ func main() {
 		}
 		for ip := ip.Mask(ipnet.Mask); ipnet.Contains(ip); inc(ip) {
 			addresses = append(addresses, ip.String())
+							} else {
+					fmt.Printf("\x1b[31m%d: Closed\x1b[0m\n", port)
+				}
+				continue
+			}
+			// Otherwise, the port is open
+			fmt.Printf("\x1b[32m%d: Open\x1b[0m\n", port)
+			conn.Close()
+		}
+	}
+}
+
+// inc increments the last octet of an IP address
+func inc(ip net.IP) {
+	for j := len(ip) - 1; j >= 0; j-- {
+		ip[j]++
+		if ip[j] > 0 {
+			break
+		}
+	}
+}
+
 		}
 	} else {
 		// Otherwise, just add the single address
